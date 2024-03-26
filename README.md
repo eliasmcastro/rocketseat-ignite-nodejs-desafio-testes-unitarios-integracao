@@ -1,38 +1,110 @@
-<p align="center">
-  <img alt="Rocketseat Education" src="https://avatars.githubusercontent.com/u/69590972?s=200&v=4" width="100px" />
-</p>
+<h1 align="center">
+  <img alt="Ignite" src=".github/logo_ignite.png" width="200px" />
+</h1>
+
+<h3 align="center">
+  Desafio: Testes unitários e integração
+</h3>
+
+<p align="center">Criação de testes unitários e integração de uma simples API (FinApi) para controle financeiro utilizando o Node.js</p>
 
 <p align="center">
-  <img src="https://img.shields.io/static/v1?label=Rocketseat&message=Education&color=8257e5&labelColor=202024" alt="Rocketseat Project" />
-  <a href="LICENSE"><img  src="https://img.shields.io/static/v1?label=License&message=MIT&color=8257e5&labelColor=202024" alt="License"></a>
+  <a href="#como-executar-o-projeto">Como executar o projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#sobre-o-desafio">Sobre o Desafio</a>
 </p>
 
-
-## 💻 Projeto
-
-ignite-template-tests-challenge
-
-## 📝 Licença
-
-Esse projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
----
+<p align="center">Back-end</p>
 
 <p align="center">
-  Feito com 💜 by Rocketseat
+  <img alt="Back-end" src=".github/backend.png" width="90%">
 </p>
 
+## Como executar o projeto
 
-<!--START_SECTION:footer-->
+### Clonar este repositório
 
-<br />
-<br />
+```bash
+git clone https://github.com/eliasmcastro/rocketseat-ignite-nodejs-desafio-testes-unitarios-integracao.git
+```
 
-<p align="center">
-  <a href="https://discord.gg/rocketseat" target="_blank">
-    <img align="center" src="https://storage.googleapis.com/golden-wind/comunidade/rodape.svg" alt="banner"/>
-  </a>
-</p>
+### Requisitos
 
-<!--END_SECTION:footer-->
+- [Node.js](https://nodejs.org)
+- [Yarn](https://yarnpkg.com)
+- [Docker](https://www.docker.com)
 
+#### Opcional
+
+- [DBeaver](https://dbeaver.io/)
+
+### Passos para a execução
+
+Instalar as dependências do projeto
+
+```bash
+yarn
+```
+
+Criar o banco de dados utilizando o Docker
+
+```bash
+docker run --name ignite-challenge-unit-test -e POSTGRES_DB=fin_api -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres
+```
+
+Executar as migrations
+
+```bash
+yarn typeorm migration:run
+```
+
+Iniciar o servidor de desenvolvimento
+
+```bash
+yarn dev
+```
+
+Executar os testes unitários
+
+```bash
+yarn test
+```
+
+A aplicação começará a ser executada em http://localhost:3333
+
+_Dica: utilizar o Insomnia para testar as rotas_
+
+- Abrir o Insomnia -> Application -> Preferences -> Data -> Import Data -> From File -> Selecionar o arquivo insomnia.json
+
+## Sobre o desafio
+
+Nesse desafio, você deverá criar testes unitários e de integração para uma aplicação já pronta usando tudo que aprendeu até agora sobre testes.
+
+### Rotas da aplicação
+
+### POST `/api/v1/users`
+
+A rota recebe `name`, `email` e `password` dentro do corpo da requisição, salva o usuário criado no banco e retorna uma resposta vazia com status `201`.
+
+### POST `/api/v1/sessions`
+
+A rota recebe `email` e `password` no corpo da requisição e retorna os dados do usuário autenticado junto à um token JWT.
+
+### GET `/api/v1/profile`
+
+A rota recebe um token JWT pelo header da requisição e retorna as informações do usuário autenticado.
+
+### GET `/api/v1/statements/balance`
+
+A rota recebe um token JWT pelo header da requisição e retorna uma lista com todas as operações de depósito e saque do usuário autenticado e também o saldo total numa propriedade `balance`.
+
+### POST `/api/v1/statements/deposit`
+
+A rota recebe um token JWT pelo header e `amount` e `description` no corpo da requisição, registra a operação de depósito do valor e retorna as informações do depósito criado com status `201`.
+
+### POST `/api/v1/statements/withdraw`
+
+A rota recebe um token JWT pelo header e `amount` e `description` no corpo da requisição, registra a operação de saque do valor (caso o usuário possua saldo válido) e retorna as informações do saque criado com status `201`.
+
+### GET `/api/v1/statements/:statement_id`
+
+A rota recebe um token JWT pelo header e o id de uma operação registrada (saque ou depósito) na URL da rota e retorna as informações da operação encontrada.

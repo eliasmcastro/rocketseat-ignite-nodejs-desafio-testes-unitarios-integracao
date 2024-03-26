@@ -11,19 +11,19 @@ export class UsersRepository implements IUsersRepository {
     this.repository = getRepository(User);
   }
 
-  async findByEmail(email: string): Promise<User | undefined> {
-    return this.repository.findOne({
-      email,
-    });
+  async create({ name, email, password }: ICreateUserDTO): Promise<User> {
+    const user = this.repository.create({ name, email, password });
+
+    return this.repository.save(user);
   }
 
   async findById(user_id: string): Promise<User | undefined> {
     return this.repository.findOne(user_id);
   }
 
-  async create({ name, email, password }: ICreateUserDTO): Promise<User> {
-    const user = this.repository.create({ name, email, password });
-
-    return this.repository.save(user);
+  async findByEmail(email: string): Promise<User | undefined> {
+    return this.repository.findOne({
+      email,
+    });
   }
 }
