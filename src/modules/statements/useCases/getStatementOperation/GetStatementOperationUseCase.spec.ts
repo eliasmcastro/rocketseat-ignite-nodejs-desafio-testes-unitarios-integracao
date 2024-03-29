@@ -10,7 +10,7 @@ let usersRepository: IUsersRepository;
 let statementsRepository: IStatementsRepository;
 let getStatementOperationUseCase: GetStatementOperationUseCase;
 
-describe('Get Statement Operation', () => {
+describe('GetStatementOperationUseCase', () => {
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository();
     statementsRepository = new InMemoryStatementsRepository();

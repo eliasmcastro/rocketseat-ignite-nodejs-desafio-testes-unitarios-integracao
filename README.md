@@ -39,34 +39,28 @@ git clone https://github.com/eliasmcastro/rocketseat-ignite-nodejs-desafio-teste
 
 ### Passos para a execução
 
-Instalar as dependências do projeto
+**1. Instalar as dependências**
 
 ```bash
 yarn
 ```
 
-Criar o banco de dados utilizando o Docker
+**2. Criar o banco de dados utilizando o Docker**
 
 ```bash
-docker run --name ignite-challenge-unit-test -e POSTGRES_DB=fin_api -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres
+docker run --name ignite-challenge-unit-test -e POSTGRES_DB=fin_api -e POSTGRES_PASSWORD=ignite -p 5432:5432 -d postgres
 ```
 
-Executar as migrations
+**3. Executar as migrations**
 
 ```bash
 yarn typeorm migration:run
 ```
 
-Iniciar o servidor de desenvolvimento
+**4. Iniciar o servidor de desenvolvimento**
 
 ```bash
 yarn dev
-```
-
-Executar os testes unitários
-
-```bash
-yarn test
 ```
 
 A aplicação começará a ser executada em http://localhost:3333
@@ -74,6 +68,72 @@ A aplicação começará a ser executada em http://localhost:3333
 _Dica: utilizar o Insomnia para testar as rotas_
 
 - Abrir o Insomnia -> Application -> Preferences -> Data -> Import Data -> From File -> Selecionar o arquivo insomnia.json
+
+### Testes automatizados
+
+Antes de executar os testes, é necessário criarmos um banco de dados exclusivo para os testes. Podemos fazer de duas formas:
+
+**1. Utilizando alguma ferramenta (ex: DBeaver) para acesso ao banco de dados**
+
+Acessar a ferramenta que você está utilizando para acessar o banco de dados e criar o banco de dados de teste chamado `fin_api_test` com o comando abaixo:
+
+Dados de conexão:
+  - Host: localhost
+  - Port: 5432
+  - Username: postgres
+  - Password: ignite
+
+```sql
+create database fin_api_test;
+```
+
+**2. Acessando diretamente o container do banco de dados**
+
+Rodar o comando abaixo para obter o CONTAINER ID
+
+```bash
+docker ps
+```
+
+Acessar o container
+
+```bash
+docker exec -it ${CONTAINER ID} bash
+```
+
+Acessar o banco postgres
+
+```bash
+psql -U postgres
+```
+
+Criar o banco de dados de teste
+
+```sql
+create database fin_api_test;
+```
+
+Visualizar todos os bancos de dados criados
+
+```sql
+\l
+```
+
+Sair do container
+
+```bash
+\q
+```
+
+```bash
+exit
+```
+
+**3. Executar os testes unitários e de integração**
+
+```bash
+yarn test
+```
 
 ## Sobre o desafio
 
